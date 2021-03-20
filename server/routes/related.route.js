@@ -8,10 +8,9 @@ var API_KEY = require('../../config.js')
 
 // GET request handler for retrieving information on related products
 route.get('/related', (request, response) => {
-    // console.log('/related request product_id: ', request.query.product_id);
     getRelatedProductIds(request.query.product_id, (error, productIds) => {
         if (error) {
-            console.log('error with getRelatedProductIds invocation');
+            console.log('error with getRelatedProductIds invocation', error);
             response.sendStatus(400);
         } else {
             getProductData(productIds, (error, results) => {
@@ -60,6 +59,7 @@ route.get('/current', (request, response) => {
 
 // helper function to retrieve product id's of all related items, given the product id of current item being displayed
 let getRelatedProductIds = (id, callback) => {
+    console.log('this is id of product', id)
     axios({
         method: 'get',
         url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-sfo/products/${id}/related`,
